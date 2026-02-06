@@ -57,7 +57,7 @@ Soda Data Quality Checks (PASS / FAIL)
 
 ### Quarantine
 - Preserves bad records for audit and debugging
-- Ensures data issues are **visible, not silent**
+- Ensures data issues are **visible**
 
 ### Gold
 - Business-ready AML metrics:
@@ -79,7 +79,6 @@ Quality checks are executed against Silver, Quarantine, and Gold using **Soda + 
 - Quarantine must contain records when bad data exists
 - **Freshness check (intentional FAIL)** to demonstrate alerting
 
-All scans produce **auditable PASS / FAIL reports** saved locally.
 
 ---
 
@@ -89,8 +88,6 @@ All scans produce **auditable PASS / FAIL reports** saved locally.
 - ✅ Silver + Quarantine validation PASS report  
 - ❌ Freshness FAIL report (intentional, to show alerting works)  
 - 📊 Excel export of Gold AML metrics (screenshot-ready)
-
-These artifacts demonstrate **trustworthiness**, not just computation.
 
 ---
 
