@@ -40,7 +40,7 @@ Exports (CSV / Excel)
 ↓
 Soda Data Quality Checks (PASS / FAIL)
 
-![Architecture](/architecture.png)
+![Architecture](https://github.com/AtharvaGitProfile/financial-data-quality-pipeline/blob/main/Architecture.png)
 
 ## Data Layers
 
