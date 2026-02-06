@@ -2,7 +2,7 @@
 
 A production-style data platform that ingests streaming financial transactions, validates and quarantines bad data, produces trusted AML-ready metrics, and enforces data quality with observable PASS/FAIL checks.
 
-This project demonstrates how **data reliability and trust** are built end-to-end — not just how data is moved.
+This project demonstrates how **data reliability and trust** are built end-to-end.
 
 ---
 
