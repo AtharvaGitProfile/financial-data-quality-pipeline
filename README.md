@@ -64,6 +64,7 @@ Soda Data Quality Checks (PASS / FAIL)
   - Total and average amount
   - High-risk transaction count
 - Used for reporting and downstream analytics
+![Gold Metrics]([https://github.com/AtharvaGitProfile/financial-data-quality-pipeline/blob/main/Architecture.png](https://github.com/AtharvaGitProfile/financial-data-quality-pipeline/blob/main/Gold%20Metrics%20Specfications%20Document.png))
 
 ---
 
