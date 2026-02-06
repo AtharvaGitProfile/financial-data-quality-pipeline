@@ -9,9 +9,9 @@ This project demonstrates how **data reliability and trust** are built end-to-en
 ## Why this project
 
 In AML, risk, and compliance workflows:
-- **Incorrect or stale data is worse than missing data**
-- Teams must **prove data quality**, not assume it
-- Failures must be **detectable, explainable, and auditable**
+- Incorrect or stale data is worse than missing data
+- Teams must prove data quality, not assume it
+- Failures must be detectable, explainable, and auditable
 
 This pipeline shows how to:
 - Prevent bad data from silently contaminating reports
@@ -52,11 +52,11 @@ Soda Data Quality Checks (PASS / FAIL)
 ### Silver
 - Schema validation and type checks
 - Required fields enforced
-- Invalid records routed to **Quarantine** with explicit `error_reason`
+- Invalid records routed to Quarantine** with explicit `error_reason`
 
 ### Quarantine
 - Preserves bad records for audit and debugging
-- Ensures data issues are **visible**
+- Ensures data issues are visible
 
 ### Gold
 - Business-ready AML metrics:
@@ -69,14 +69,14 @@ Soda Data Quality Checks (PASS / FAIL)
 
 ## Data Quality & Observability (Soda)
 
-Quality checks are executed against Silver, Quarantine, and Gold using **Soda + DuckDB**.
+Quality checks are executed against Silver, Quarantine, and Gold using Soda + DuckDB.
 
 ### Examples
 - Row count > 0
 - No missing critical fields
 - No negative or invalid amounts
 - Quarantine must contain records when bad data exists
-- **Freshness check (intentional FAIL)** to demonstrate alerting
+- **Freshness check (intentional FAIL) to demonstrate alerting
 
 
 ---
