@@ -40,8 +40,7 @@ Exports (CSV / Excel)
 ↓
 Soda Data Quality Checks (PASS / FAIL)
 
-
----
+![Architecture](/architecture.png)
 
 ## Data Layers
 
