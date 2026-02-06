@@ -1,0 +1,95 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import (
+    col, current_timestamp, to_date, date_format
+)
+
+# -----------------------------
+# Bronze job: Kafka -> S3 (raw)
+# -----------------------------
+# Bronze rule: store exactly what arrived. Do NOT parse/clean/validate here.
+# We keep:
+# - raw_value (string JSON or malformed JSON)
+# - kafka metadata (topic, partition, offset, timestamp, key)
+# - ingestion timestamp (when Spark wrote it)
+
+KAFKA_BOOTSTRAP = "kafka:9092"              # Kafka hostname INSIDE docker network
+KAFKA_TOPIC = "fintech_transactions"
+
+S3_BUCKET = "datatrust-lake"
+BRONZE_PREFIX = "bronze/fintech_transactions"
+
+# LocalStack S3 endpoint INSIDE docker network
+S3_ENDPOINT = "http://localstack:4566"
+
+CHECKPOINT_DIR = "/tmp/checkpoints/bronze_fintech"
+
+
+def build_spark() -> SparkSession:
+    return (
+        SparkSession.builder
+        .appName("bronze_kafka_to_s3")
+        # --- S3A (Spark/Hadoop) config to talk to LocalStack ---
+        .config("spark.hadoop.fs.s3a.endpoint", S3_ENDPOINT)
+        .config("spark.hadoop.fs.s3a.access.key", "test")
+        .config("spark.hadoop.fs.s3a.secret.key", "test")
+        .config("spark.hadoop.fs.s3a.path.style.access", "true")
+        .config("spark.hadoop.fs.s3a.connection.ssl.enabled", "false")
+        .config("spark.hadoop.fs.s3a.aws.credentials.provider",
+                "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider")
+        # Safer for local dev (less strict about some consistency semantics)
+        .config("spark.hadoop.fs.s3a.fast.upload", "true")
+        .getOrCreate()
+    )
+
+
+def main():
+    spark = build_spark()
+    spark.sparkContext.setLogLevel("WARN")
+
+    # 1) Read raw messages from Kafka (streaming)
+    kafka_df = (
+        spark.readStream
+        .format("kafka")
+        .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP)
+        .option("subscribe", KAFKA_TOPIC)
+        # start from earliest for demo; later we can switch to "latest"
+        .option("startingOffsets", "earliest")
+        # small safety: don’t pull infinite backlog at once
+        .option("maxOffsetsPerTrigger", 1000)
+        .load()
+    )
+
+    # Kafka gives key/value as bytes. Convert to strings for storage/debugging.
+    bronze_df = (
+        kafka_df
+        .select(
+            col("topic"),
+            col("partition"),
+            col("offset"),
+            col("timestamp").alias("kafka_timestamp"),
+            col("key").cast("string").alias("kafka_key"),
+            col("value").cast("string").alias("raw_value"),
+            current_timestamp().alias("ingested_at"),
+        )
+        # partitioning helpers (so files are organized by day)
+        .withColumn("ingest_date", to_date(col("ingested_at")))
+        .withColumn("ingest_hour", date_format(col("ingested_at"), "yyyy-MM-dd-HH"))
+    )
+
+    # 2) Write to S3 as Bronze (append-only)
+    output_path = f"s3a://{S3_BUCKET}/{BRONZE_PREFIX}"
+
+    query = (
+        bronze_df.writeStream
+        .format("parquet")
+        .outputMode("append")
+        .option("checkpointLocation", CHECKPOINT_DIR)
+        .partitionBy("ingest_date")  # simple, effective partitioning
+        .start(output_path)
+    )
+
+    query.awaitTermination()
+
+
+if __name__ == "__main__":
+    main()

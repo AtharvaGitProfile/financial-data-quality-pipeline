@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FintechTransactionEventV1",
+  "description": "Event schema for fintech transaction lifecycle events",
+  "type": "object",
+  "required": [
+    "event_id",
+    "transaction_id",
+    "user_id",
+    "merchant_id",
+    "amount",
+    "currency",
+    "payment_method",
+    "transaction_type",
+    "status",
+    "event_time",
+    "ingested_at",
+    "source_system",
+    "schema_version"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Unique identifier for this event message"
+    },
+    "transaction_id": {
+      "type": "string",
+      "description": "Identifier for the transaction across its lifecycle"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User initiating the transaction"
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "Merchant or counterparty receiving funds"
+    },
+    "amount": {
+      "type": "string",
+      "pattern": "^[0-9]+(\\.[0-9]{2})?$",
+      "description": "Monetary amount as string to avoid floating point errors"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "payment_method": {
+      "type": "string",
+      "enum": ["card", "ach", "wire", "wallet"],
+      "description": "Method used to move money"
+    },
+    "transaction_type": {
+      "type": "string",
+      "enum": ["purchase", "refund", "payout", "transfer"],
+      "description": "Business classification of the transaction"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["initiated", "authorized", "failed", "settled"],
+      "description": "Current state of the transaction event"
+    },
+    "failure_reason": {
+      "type": ["string", "null"],
+      "description": "Reason for failure if status is failed"
+    },
+    "event_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the event occurred in the source system"
+    },
+    "ingested_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the event was ingested into the pipeline"
+    },
+    "risk_score": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Risk score assigned at event time"
+    },
+    "source_system": {
+      "type": "string",
+      "description": "Originating system emitting the event"
+    },
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Version of the event schema"
+    }
+  },
+  "additionalProperties": false
+}

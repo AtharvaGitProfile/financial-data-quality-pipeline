@@ -1,0 +1,3 @@
+data_source datatrust_duckdb:
+  type: duckdb
+  path: data/datatrust.duckdb

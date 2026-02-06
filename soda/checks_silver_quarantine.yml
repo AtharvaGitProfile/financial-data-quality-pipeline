@@ -1,0 +1,13 @@
+checks for silver_fintech_transactions:
+  - row_count > 0
+  - missing_count(transaction_id) = 0
+  - missing_count(event_time) = 0
+  - missing_count(currency) = 0
+  - missing_count(status) = 0
+  - invalid_count(amount_num) = 0:
+      valid min: 0
+
+checks for quarantine_fintech_transactions:
+  - row_count > 0
+  - missing_count(error_reason) = 0
+  - missing_count(<RAW_COL>) = 0

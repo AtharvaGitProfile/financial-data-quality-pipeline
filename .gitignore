@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+data/*.duckdb
+
+exports/gold_parquet/
+exports/silver_parquet/
+exports/quarantine_parquet/
+exports/gold_csv/
+exports/soda_reports/
+exports/*.xlsx
+exports/*.csv

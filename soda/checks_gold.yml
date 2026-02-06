@@ -1,0 +1,15 @@
+checks for gold_daily_transaction_metrics:
+  - row_count > 0
+  - missing_count(event_date) = 0
+  - missing_count(currency) = 0
+  - missing_count(status) = 0
+
+  # basic validity
+  - invalid_count(transaction_count) = 0:
+      valid min: 0
+  - invalid_count(total_amount) = 0:
+      valid min: 0
+  - invalid_count(avg_amount) = 0:
+      valid min: 0
+  - invalid_count(high_risk_txn_count) = 0:
+      valid min: 0

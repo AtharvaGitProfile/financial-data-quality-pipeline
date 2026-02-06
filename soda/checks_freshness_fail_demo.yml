@@ -1,0 +1,3 @@
+checks for silver_fintech_transactions:
+  # Intentionally strict so it FAILS (portfolio demo)
+  - freshness(event_time_ts) < 1h
