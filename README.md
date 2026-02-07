@@ -83,11 +83,14 @@ Quality checks are executed against Silver, Quarantine, and Gold using Soda + Du
 
 ---
 
-✅ Gold data quality PASS report
+## ✅ Gold data quality PASS report
 
 ![goldsoda](https://github.com/AtharvaGitProfile/financial-data-quality-pipeline/blob/main/Gold%20Soda%20Check.png)
 
-✅ Silver + Quarantine validation PASS report  
+## ✅ Silver + Quarantine validation PASS report  
+
+![Silver + Quarantine Validation Report](https://github.com/AtharvaGitProfile/financial-data-quality-pipeline/blob/main/Silver%20Quarantine%20Scan.png)
+
 
 ❌ Freshness FAIL report (intentional, to show alerting works)  
 
