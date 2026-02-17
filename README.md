@@ -179,6 +179,5 @@ It demonstrates how the system surfaces stale data as a first-class issue, not a
 
 ![FreshnessCheck](https://github.com/AtharvaGitProfile/financial-data-quality-pipeline/blob/main/Freshness%20fail.png)
 
-
 ---
 
