@@ -179,11 +179,6 @@ It demonstrates how the system surfaces stale data as a first-class issue, not a
 
 ![FreshnessCheck](https://github.com/AtharvaGitProfile/financial-data-quality-pipeline/blob/main/Freshness%20fail.png)
 
-📊 Excel export of Gold AML metrics 
-
-Exports for downstream use
-Gold metrics are exported to CSV and Excel.
-This reflects how financial data is commonly reviewed and shared. Analysts and compliance teams often work outside the systems that produced the data.
 
 ---
 
